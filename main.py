@@ -25,10 +25,11 @@ def add_task():
     if task.strip():  # Ensures the task is not empty
         with open(todo_file, 'a') as file:
             file.write(task + '\n')
-        print('Task added:', task)
-        speak('Task added:', task)
+        print(f'Task added: {task}')
+        speak(f'Task added: {task}')
+    return
 
-
+ 
 
 def remove_task():
     with open(todo_file, 'r') as file:
@@ -60,7 +61,7 @@ def remove_task():
     except ValueError:
         print('Please enter a valid number.')
         speak('Please enter a valid number.')
-
+        return
 
 # Obtain audio from the microphone
 def command():
@@ -92,8 +93,15 @@ def main_process():
     while True:
         request  = command().lower()
         init_jarvis(request)
+        if'open google' in request:
+            webbrowser.open('https://www.google.com')
+
+        elif'open LinkedIn' in request:
+            webbrowser.open('https://www.linkedin.com/feed/')
+
+
         # play music
-        if 'play music' in request:
+        elif 'play music' in request:
             speak('playing music..')
             song = random.randint(1,4)
             if song == 1:
@@ -147,7 +155,7 @@ def main_process():
         elif 'generate response' in request:
             print('what is your question ..')
             speak('what is your question ..')
-            qurrey = command()
+            qurrey = str(command())
             output = generate_response(qurrey)
             speak(output)
 
